@@ -1,0 +1,4 @@
+include setup.py README.rst LICENSE MANIFEST.in
+recursive-include src/loginas/templates *
+recursive-include src/loginas/static *
+global-exclude *~
