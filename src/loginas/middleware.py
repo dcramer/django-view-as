@@ -9,6 +9,8 @@ from django.utils.encoding import smart_unicode
 
 assert 'django.template.loaders.app_directories.Loader' in settings.TEMPLATE_LOADERS
 assert 'loginas' in settings.INSTALLED_APPS
+assert 'django.contrib.auth' in settings.INSTALLED_APPS
+assert 'django.contrib.sessions' in settings.INSTALLED_APPS
 
 
 _HTML_TYPES = ('text/html', 'application/xhtml+xml')
