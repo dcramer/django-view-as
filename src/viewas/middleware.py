@@ -30,6 +30,8 @@ def replace_insensitive(string, target, replacement):
 
 class BaseMiddleware(object):
     def can_run(self, request):
+        if not hasattr(request, 'user'):
+            return False
         user = getattr(request, 'actual_user', request.user)
         return user.is_superuser
 
