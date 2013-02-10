@@ -8,9 +8,9 @@ from django.utils.encoding import smart_unicode
 
 
 assert 'django.template.loaders.app_directories.Loader' in settings.TEMPLATE_LOADERS
-assert 'loginas' in settings.INSTALLED_APPS
 assert 'django.contrib.auth' in settings.INSTALLED_APPS
 assert 'django.contrib.sessions' in settings.INSTALLED_APPS
+assert 'viewas' in settings.INSTALLED_APPS
 
 
 _HTML_TYPES = ('text/html', 'application/xhtml+xml')
@@ -35,11 +35,11 @@ class BaseMiddleware(object):
         return user.is_superuser
 
 
-class LoginAsHookMiddleware(BaseMiddleware):
+class ViewAsHookMiddleware(BaseMiddleware):
     """
     Authenticates a superuser as another user assuming a session variable is present.
     """
-    logger = logging.getLogger('loginas')
+    logger = logging.getLogger('viewas')
 
     def login_as(self, request, username):
         if request.user.username.lower() == username.lower():
@@ -76,7 +76,7 @@ class LoginAsHookMiddleware(BaseMiddleware):
             self.login_as(request, request.session['login_as'])
 
 
-class LoginAsRenderMiddleware(BaseMiddleware):
+class ViewAsRenderMiddleware(BaseMiddleware):
     tag = u'</body>'
 
     def process_response(self, request, response):
@@ -94,10 +94,10 @@ class LoginAsRenderMiddleware(BaseMiddleware):
         return response
 
     def render(self, request):
-        return render_to_string('loginas/header.html', {
+        return render_to_string('viewas/header.html', {
             'request': request,
         })
 
 
-class LoginAsMiddleware(LoginAsHookMiddleware, LoginAsRenderMiddleware):
+class ViewAsMiddleware(ViewAsHookMiddleware, ViewAsRenderMiddleware):
     pass

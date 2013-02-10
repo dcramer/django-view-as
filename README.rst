@@ -1,7 +1,7 @@
-django-login-as
-===============
+django-view-as
+==============
 
-A simple middleware which allows a superuser to login as another user and view the site on their behalf.
+A simple middleware which allows a superuser to view the site on behalf of another user.
 
 
 Install
@@ -11,7 +11,7 @@ Install the package:
 
 ::
 
-	pip install django-login-as
+	pip install django-view-as
 
 
 Add the middleware:
@@ -19,7 +19,7 @@ Add the middleware:
 ::
 
 	MIDDLEWARE_CLASSES = (
-		'loginas.LoginAsHookMiddleware',
+		'viewas.ViewAsMiddleware',
 	)
 
 Register the application within INSTALLED_APPS:
@@ -29,7 +29,7 @@ Register the application within INSTALLED_APPS:
 	INSTALLED_APPS = (
 		'django.contrib.auth',
 		'django.contrib.sessions',
-		'loginas',
+		'viewas',
 	)
 
 Make sure the application loader is available for templates:

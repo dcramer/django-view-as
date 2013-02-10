@@ -18,7 +18,7 @@ def pytest_configure(config):
                 'django.contrib.sessions',
                 'django.contrib.sites',
                 'django.contrib.contenttypes',
-                'loginas',
+                'viewas',
             ],
             ROOT_URLCONF='',
             DEBUG=False,

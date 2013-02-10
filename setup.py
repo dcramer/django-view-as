@@ -15,7 +15,7 @@ entry_points = {
 
 
 setup(
-    name='django-login-as',
+    name='django-view-as',
     version='0.1.1',
     author="David Cramer",
     author_email="dcramer@gmail.com",

@@ -1,4 +1,4 @@
 include setup.py README.rst LICENSE MANIFEST.in
-recursive-include src/loginas/templates *
-recursive-include src/loginas/static *
+recursive-include src/viewas/templates *
+recursive-include src/viewas/static *
 global-exclude *~
