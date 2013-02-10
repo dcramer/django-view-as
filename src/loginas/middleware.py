@@ -31,7 +31,8 @@ def replace_insensitive(string, target, replacement):
 
 class BaseMiddleware(object):
     def can_run(self, request):
-        return request.user.is_superuser
+        user = getattr(request.user, 'actual_user', request.user)
+        return user.is_superuser
 
 
 class LoginAsHookMiddleware(BaseMiddleware):
