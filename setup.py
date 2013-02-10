@@ -16,7 +16,8 @@ entry_points = {
 
 setup(
     name='django-view-as',
-    version='0.1.1',
+    version='0.1.0',
+    description="A Django middleware which allows you to view the site on behalf of a user.",
     author="David Cramer",
     author_email="dcramer@gmail.com",
     license='Apache License 2.0',
