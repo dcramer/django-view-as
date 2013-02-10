@@ -7,7 +7,6 @@ from django.template.loader import render_to_string
 from django.utils.encoding import smart_unicode
 
 
-assert 'django.template.loaders.app_directories.Loader' in settings.TEMPLATE_LOADERS
 assert 'django.contrib.auth' in settings.INSTALLED_APPS
 assert 'django.contrib.sessions' in settings.INSTALLED_APPS
 assert 'viewas' in settings.INSTALLED_APPS
