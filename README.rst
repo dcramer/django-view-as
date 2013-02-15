@@ -21,7 +21,7 @@ Add the middleware:
 ::
 
 	MIDDLEWARE_CLASSES = (
-		'viewas.ViewAsMiddleware',
+		'viewas.middleware.ViewAsMiddleware',
 	)
 
 Register the application within INSTALLED_APPS:
