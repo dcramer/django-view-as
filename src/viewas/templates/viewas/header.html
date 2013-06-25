@@ -1,23 +1,30 @@
 <style type="text/css">
 #login_as {
     position: fixed;
+    display: block;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 30px;
-    line-height: 29px;
+    height: 35px;
+    line-height: 34px;
     color: #ccc;
     margin: 0;
     padding: 3px 15px;
     background: #222;
     border: 3px solid #000;
     border-width: 3px 0;
+    box-sizing: content-box;
 }
 #login_as .self {
     float: left;
+    overflow: hidden;
+    white-space: nowrap;
 }
 #login_as form {
+    background: inherit;
+    text-align: right;
     float: right;
+    max-width: 250px;
 }
 #login_as * {
     margin: 0;
@@ -44,6 +51,9 @@
     border-radius: 0;
     border: 0;
     margin: 0 3px;
+    padding: 0;
+    height: auto;
+    line-height: 1;
     width: 120px;
     background: inherit;
     outline: 0;
