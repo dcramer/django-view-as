@@ -2,6 +2,7 @@ import logging
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.utils.encoding import smart_unicode
@@ -42,6 +43,18 @@ class ViewAsHookMiddleware(BaseMiddleware):
     """
     logger = logging.getLogger('viewas')
 
+    def get_user(self, username):
+        try:
+            return User.objects.get(username__iexact=username)
+        except ObjectDoesNotExist:
+            # try to look up by email
+            if '@' in username:
+                try:
+                    return User.objects.get(email__iexact=username)
+                except (MultipleObjectsReturned, ObjectDoesNotExist):
+                    return None
+        return None
+
     def login_as(self, request, username):
         if request.user.username.lower() == username.lower():
             return
@@ -51,17 +64,18 @@ class ViewAsHookMiddleware(BaseMiddleware):
                 del request.session['login_as']
             return
 
-        self.logger.info('User %r forced a login as %r', request.user.username, username,
+        self.logger.info(
+            'User %r forced a login as %r', request.user.username, username,
             extra={'request': request})
 
-        try:
-            request.user = User.objects.get(username__iexact=username)
-        except User.DoesNotExist:
+        user = self.get_user(username)
+        if user:
+            request.user = user
+            request.session['login_as'] = request.user.username
+        else:
             messages.warning(request, "Did not find a user matching '%s'" % (username,))
             if 'login_as' in request.session:
                 del request.session['login_as']
-        else:
-            request.session['login_as'] = request.user.username
 
     def process_request(self, request):
         if not self.can_run(request):
