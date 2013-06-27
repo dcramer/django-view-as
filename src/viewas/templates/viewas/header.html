@@ -92,9 +92,9 @@
 
 <menu id="login_as">
     <div class="self">
-        You are logged in as <strong>{{ request.user.username }}</strong> ({{ request.user.email }}) {% if request.actual_user.username != request.user.username %}<input type="submit" onclick="this.form['login_as'].value = ''" value="Logout"/>{% endif %}
+        You are logged in as <strong>{{ request.user.username }}</strong> ({{ request.user.email }})
     </div>
     <form method="POST">
-        Switch user: <input type="text" name="login_as" value="{{ request.user.username }}"/> <input type="submit" value="Go"/>
+        Switch user: <input type="text" name="login_as" value="{{ request.user.username }}"/> <input type="submit" value="Go"/> {% if request.actual_user.username != request.user.username %}<input type="submit" onclick="this.form['login_as'].value = ''" value="Logout"/>{% endif %}
     </form>
 </menu>
