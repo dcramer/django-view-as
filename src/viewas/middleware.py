@@ -1,7 +1,6 @@
 import logging
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.models import User
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.template.loader import render_to_string
@@ -11,6 +10,13 @@ from django.utils.encoding import smart_unicode
 assert 'django.contrib.auth' in settings.INSTALLED_APPS
 assert 'django.contrib.sessions' in settings.INSTALLED_APPS
 assert 'viewas' in settings.INSTALLED_APPS
+
+if hasattr(settings, 'AUTH_USER_MODEL'):
+    from django.contrib.auth import get_user_model
+
+    User = get_user_model()
+else:
+    from django.contrib.auth.models import User
 
 
 _HTML_TYPES = ('text/html', 'application/xhtml+xml')
