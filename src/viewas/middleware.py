@@ -71,7 +71,8 @@ class ViewAsHookMiddleware(BaseMiddleware):
             return
 
         self.logger.info(
-            'User %r forced a login as %r', request.user.username, username,
+            'User %r forced a login as %r at %s',
+            request.user.username, username, request.get_full_path(),
             extra={'request': request})
 
         user = self.get_user(username)
