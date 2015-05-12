@@ -46,6 +46,6 @@ Make sure the application loader is available for templates:
 Usage
 -----
 
-Load any page with an html response type and you'll see a new toolbar at the top of the page. Enter a username to change who you're viewing the site as.
+Load any page with an html response type, hit the tilda key (~), and you'll see a new toolbar at the bottom of the page. Enter a username to change who you're viewing the site as.
 
 If you need more complex behavior (such as not binding based on the superuser attribute), check out the source the middleware is designed to be extensibile.

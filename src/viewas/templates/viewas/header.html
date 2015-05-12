@@ -1,7 +1,6 @@
 <style type="text/css">
 #login_as {
     position: fixed;
-    display: block;
     bottom: 0;
     left: 0;
     right: 0;
@@ -14,6 +13,7 @@
     border: 3px solid #000;
     border-width: 3px 0;
     box-sizing: content-box;
+    display: none;
 }
 #login_as .self {
     float: left;
@@ -89,7 +89,6 @@
     font-weight: bold;
 }
 </style>
-
 <menu id="login_as">
     <div class="self">
         You are logged in as <strong>{{ request.user.username }}</strong> ({{ request.user.email }})
@@ -98,3 +97,20 @@
         Switch user: <input type="text" name="login_as" value="{{ request.user.username }}"/> <input type="submit" value="Go"/> {% if request.actual_user.username != request.user.username %}<input type="submit" onclick="this.form['login_as'].value = ''" value="Logout"/>{% endif %}
     </form>
 </menu>
+<script>
+(function(document){
+    var key = {tilda: 192};
+    var visible = false;
+    var el = document.getElementById('login_as');
+
+    document.body.addEventListener("keydown", function(event){
+        if(!visible && event.which === key.tilda) {
+            visible = true;
+            el.style.display = 'block';
+        } else if(visible && event.which === key.tilda) {
+            visible = false;
+            el.style.display = 'none';
+        }
+    });
+}(document))
+</script>
