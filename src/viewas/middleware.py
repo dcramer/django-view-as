@@ -50,19 +50,15 @@ class ViewAsHookMiddleware(BaseMiddleware):
     logger = logging.getLogger('viewas')
 
     def get_user(self, username):
+        selector = User.USERNAME_FIELD + '__iexact'
+        query = {selector: username}
         try:
-            return User.objects.get(username__iexact=username)
-        except ObjectDoesNotExist:
-            # try to look up by email
-            if '@' in username:
-                try:
-                    return User.objects.get(email__iexact=username)
-                except (MultipleObjectsReturned, ObjectDoesNotExist):
-                    return None
-        return None
+            return User.objects.get(**query)
+        except (MultipleObjectsReturned, ObjectDoesNotExist):
+            return None
 
     def login_as(self, request, username):
-        if request.user.username.lower() == username.lower():
+        if request.user.get_username().lower() == username.lower():
             return
 
         if username == '':
@@ -72,13 +68,13 @@ class ViewAsHookMiddleware(BaseMiddleware):
 
         self.logger.info(
             'User %r forced a login as %r at %s',
-            request.user.username, username, request.get_full_path(),
+            request.user.get_username(), username, request.get_full_path(),
             extra={'request': request})
 
         user = self.get_user(username)
         if user:
             request.user = user
-            request.session['login_as'] = request.user.username
+            request.session['login_as'] = request.user.get_username()
         else:
             messages.warning(request, "Did not find a user matching '%s'" % (username,))
             if 'login_as' in request.session:
