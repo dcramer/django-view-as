@@ -121,7 +121,7 @@ class ViewAsRenderMiddleware(BaseMiddleware):
         return response
 
     def render(self, request):
-        if not isinstance(request.user, AnonymousUser)
+        if not isinstance(request.user, AnonymousUser):
             request.user.username = request.user.get_username()
         if hasattr(request, 'actual_user'):
             request.actual_user.username = request.actual_user.get_username()
