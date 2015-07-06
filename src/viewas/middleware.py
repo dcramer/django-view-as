@@ -121,7 +121,8 @@ class ViewAsRenderMiddleware(BaseMiddleware):
 
     def render(self, request):
         request.user.username = request.user.get_username()
-        request.actual_user.username = request.actual_user.get_username()
+        if hasattr(request, 'actual_user'):
+            request.actual_user.username = request.actual_user.get_username()
         return render_to_string('viewas/header.html', {
             'VIEWAS_TOGGLE_KEY': VIEWAS_TOGGLE_KEY,
             'request': request,
