@@ -99,17 +99,13 @@
 </menu>
 <script>
 (function(document){
-    var key = {tilda: 192};
     var visible = false;
     var el = document.getElementById('login_as');
 
     document.body.addEventListener("keydown", function(event){
-        if(!visible && event.which === key.tilda) {
-            visible = true;
-            el.style.display = 'block';
-        } else if(visible && event.which === key.tilda) {
-            visible = false;
-            el.style.display = 'none';
+        if (event.which == {{ VIEWAS_TOGGLE_KEY }} ){
+            visible = visible ? false : true;
+            el.style.display = visible ? 'block' : 'none';
         }
     });
 }(document))
