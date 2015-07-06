@@ -18,11 +18,8 @@ if hasattr(settings, 'AUTH_USER_MODEL'):
 else:
     from django.contrib.auth.models import User
 
-if hasattr(settings, 'VIEWAS_TOGGLE_KEY'):
-    VIEWAS_TOGGLE_KEY = settings.VIEWAS_TOGGLE_KEY
-else:
-    VIEWAS_TOGGLE_KEY = 192  # tilda
-
+# tilda (192) as default key
+VIEWAS_TOGGLE_KEY = getattr(settings, 'VIEWAS_TOGGLE_KEY', 192)
 
 _HTML_TYPES = ('text/html', 'application/xhtml+xml')
 
