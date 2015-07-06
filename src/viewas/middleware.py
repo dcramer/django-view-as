@@ -118,6 +118,8 @@ class ViewAsRenderMiddleware(BaseMiddleware):
         return response
 
     def render(self, request):
+        request.user.username = request.user.get_username()
+        request.actual_user.username = request.actual_user.get_username()
         return render_to_string('viewas/header.html', {
             'request': request,
         })
