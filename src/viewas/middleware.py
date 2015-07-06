@@ -18,6 +18,11 @@ if hasattr(settings, 'AUTH_USER_MODEL'):
 else:
     from django.contrib.auth.models import User
 
+if hasattr(settings, 'VIEWAS_TOGGLE_KEY'):
+    VIEWAS_TOGGLE_KEY = settings.VIEWAS_TOGGLE_KEY
+else:
+    VIEWAS_TOGGLE_KEY = 192  # tilda
+
 
 _HTML_TYPES = ('text/html', 'application/xhtml+xml')
 
@@ -121,6 +126,7 @@ class ViewAsRenderMiddleware(BaseMiddleware):
         request.user.username = request.user.get_username()
         request.actual_user.username = request.actual_user.get_username()
         return render_to_string('viewas/header.html', {
+            'VIEWAS_TOGGLE_KEY': VIEWAS_TOGGLE_KEY,
             'request': request,
         })
 
