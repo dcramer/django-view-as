@@ -22,10 +22,6 @@ else:
 _HTML_TYPES = ('text/html', 'application/xhtml+xml')
 
 
-def username_of(user):
-    return getattr(user, User.USERNAME_FIELD)
-
-
 def replace_insensitive(string, target, replacement):
     """
     Similar to string.replace() but is case insensitive
@@ -62,7 +58,7 @@ class ViewAsHookMiddleware(BaseMiddleware):
             return None
 
     def login_as(self, request, username):
-        if username_of(request.user).lower() == username.lower():
+        if request.user.get_username().lower() == username.lower():
             return
 
         if username == '':
@@ -72,13 +68,13 @@ class ViewAsHookMiddleware(BaseMiddleware):
 
         self.logger.info(
             'User %r forced a login as %r at %s',
-            username_of(request.user), username, request.get_full_path(),
+            request.user.get_username(), username, request.get_full_path(),
             extra={'request': request})
 
         user = self.get_user(username)
         if user:
             request.user = user
-            request.session['login_as'] = username_of(request.user)
+            request.session['login_as'] = request.user.get_username()
         else:
             messages.warning(request, "Did not find a user matching '%s'" % (username,))
             if 'login_as' in request.session:
