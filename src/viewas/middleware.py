@@ -54,8 +54,14 @@ class ViewAsHookMiddleware(BaseMiddleware):
         query = {selector: username}
         try:
             return User.objects.get(**query)
-        except (MultipleObjectsReturned, ObjectDoesNotExist):
-            return None
+        except ObjectDoesNotExist:
+            # try to look up by email
+            if '@' in username:
+                try:
+                    return User.objects.get(email__iexact=username)
+                except (MultipleObjectsReturned, ObjectDoesNotExist):
+                    return None
+        return None
 
     def login_as(self, request, username):
         if request.user.get_username().lower() == username.lower():
