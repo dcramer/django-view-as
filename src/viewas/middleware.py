@@ -54,8 +54,14 @@ class ViewAsHookMiddleware(BaseMiddleware):
         query = {selector: username}
         try:
             return User.objects.get(**query)
-        except (MultipleObjectsReturned, ObjectDoesNotExist):
-            return None
+        except ObjectDoesNotExist:
+            # try to look up by email
+            if '@' in username:
+                try:
+                    return User.objects.get(email__iexact=username)
+                except (MultipleObjectsReturned, ObjectDoesNotExist):
+                    return None
+        return None
 
     def login_as(self, request, username):
         if request.user.get_username().lower() == username.lower():
@@ -112,6 +118,8 @@ class ViewAsRenderMiddleware(BaseMiddleware):
         return response
 
     def render(self, request):
+        request.user.username = request.user.get_username()
+        request.actual_user.username = request.actual_user.get_username()
         return render_to_string('viewas/header.html', {
             'request': request,
         })
