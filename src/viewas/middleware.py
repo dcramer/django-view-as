@@ -5,6 +5,7 @@ from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.utils.encoding import smart_unicode
+from django.contrib.auth.models import AnonymousUser
 
 
 assert 'django.contrib.auth' in settings.INSTALLED_APPS
@@ -120,7 +121,8 @@ class ViewAsRenderMiddleware(BaseMiddleware):
         return response
 
     def render(self, request):
-        request.user.username = request.user.get_username()
+        if not isinstance(request.user, AnonymousUser)
+            request.user.username = request.user.get_username()
         if hasattr(request, 'actual_user'):
             request.actual_user.username = request.actual_user.get_username()
         return render_to_string('viewas/header.html', {
