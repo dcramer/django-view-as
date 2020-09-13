@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.template.loader import render_to_string
-from django.utils.encoding import smart_unicode
+from django.utils.encoding import smart_text
 from django.contrib.auth.models import AnonymousUser
 
 
@@ -113,9 +113,9 @@ class ViewAsRenderMiddleware(BaseMiddleware):
         if ('gzip' not in response.get('Content-Encoding', '') and
                 response.get('Content-Type', '').split(';')[0] in _HTML_TYPES):
             response.content = replace_insensitive(
-                smart_unicode(response.content),
+                smart_text(response.content),
                 self.tag,
-                smart_unicode(self.render(request) + self.tag))
+                smart_text(self.render(request) + self.tag))
             if response.get('Content-Length', None):
                 response['Content-Length'] = len(response.content)
         return response
