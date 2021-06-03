@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.utils.encoding import smart_text
 from django.contrib.auth.models import AnonymousUser
+from django.utils.deprecation import MiddlewareMixin
 
 
 assert 'django.contrib.auth' in settings.INSTALLED_APPS
@@ -38,7 +39,7 @@ def replace_insensitive(string, target, replacement):
     return string
 
 
-class BaseMiddleware(object):
+class BaseMiddleware(MiddlewareMixin):
     def can_run(self, request):
         if not hasattr(request, 'user'):
             return False
